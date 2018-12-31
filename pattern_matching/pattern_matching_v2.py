@@ -1,6 +1,5 @@
 """
-THIS IS INCOMPLETE  AND DOESN'T WORK
-
+This is the latest, and most correct  version!
 """
 def isMatch2(s, p):
     groups = tokenize_pattern(p)
