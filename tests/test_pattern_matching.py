@@ -72,12 +72,3 @@ class MatcherTestCase(TestCase):
                 logging.info("%s match %s = %s should be %s",  # info because by default it won't log debug or info
                              test_case[0], test_case[1], match, test_case[2])
                 self.assertEqual(match, test_case[2])
-
-
-class BrokenTestCase(TestCase):
-    def test_borked(self):
-        p = "ababa*ba?cd"
-        s = "ababaaaaabaacd"
-        
-        result = isMatch2(s, p)
-        print("result: {}".format(result))
