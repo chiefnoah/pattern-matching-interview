@@ -2,7 +2,6 @@
 THIS IS INCOMPLETE  AND DOESN'T WORK
 
 """
-
 def isMatch2(s, p):
     groups = tokenize_pattern(p)
     index = 0
@@ -11,8 +10,11 @@ def isMatch2(s, p):
         if "*" in g:
             c = g[0]  # this is the character that can be matched
             prev_index = index
-            while p[index] == c:
+            while index < len(s) and s[index] == c:
                 index = index + 1
+            if i < len(groups) - 1:
+                lah = _look_ahead(groups[i + 1:], c, s[index:])
+                index = index - lah
             matched_group.append(s[prev_index:index])
         elif g == "?":
             matched_group.append(s[index])
@@ -23,9 +25,28 @@ def isMatch2(s, p):
             else:
                 matched_group.append(g)
                 index = index + len(g)
-    return True
-    #return "".join(matched_group) == s
 
+    return "".join(matched_group) == s
+
+def _look_ahead(groups, c, text):
+    """
+    Looks ahead at provided groups and counts # of instances of something that could match c (literal or ?) in text and return that count
+    """
+    count = 0
+    for group in groups:
+        if group == "?":
+            count = count + 1
+        elif group[0] == c:
+            counter = 0
+            while counter < len(group) and group[counter] == c:
+                counter = counter + 1
+            count = count + counter
+            if counter != len(group):
+                break
+        else:
+            break
+                
+    return count
 
 def tokenize_pattern(p):
     """
