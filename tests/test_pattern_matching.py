@@ -46,6 +46,11 @@ class MatcherTestCase(TestCase):
             ("b", "a*b", True),
             ("aaab", "a*b", True),
             ("ab", "a*b", True),
+
+        ]
+
+        self.false_negatives_v2 = [
+            ("aaabc", "a*?c", False), # this *should* match, but because the v2 version of the matcher assumes the ? should match an 'a', it fails the match
         ]
 
     @skip("Tests for old implementation")
@@ -73,11 +78,10 @@ class MatcherTestCase(TestCase):
                              test_case[0], test_case[1], match, test_case[2])
                 self.assertEqual(match, test_case[2])
 
-
-class BrokenTestCase(TestCase):
-    def test_borked(self):
-        p = "ababa*ba?cd"
-        s = "ababaaaaabaacd"
-        
-        result = isMatch2(s, p)
-        print("result: {}".format(result))
+    def test_bulk_bad_tests_v2(self):
+        for test_case in self.false_negatives_v2:
+            with self.subTest(text=test_case[0], pattern=test_case[1]):
+                match = isMatch2(test_case[0], test_case[1])
+                logging.info("%s match %s = %s should be %s",  # info because by default it won't log debug or info
+                             test_case[0], test_case[1], match, test_case[2])
+                self.assertEqual(match, test_case[2])
