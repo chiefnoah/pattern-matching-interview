@@ -1,12 +1,16 @@
 from unittest import TestCase
 import random
-from find_closest import find_closest
+import logging
+from find_closest_num import find_closest
+
+logging.basicConfig(level=logging.INFO)
 
 class FindClosesTestCase(TestCase):
 
 
     def setUp(self):
         self.test_cases = [
+            # list, target, expected
             ([1, 2, 3, 4, 5, 6], 3, 3),
             ([1, 2, 4, 5, 6, 7], 3, 2),
             ([1, 2], 3, 2),
@@ -17,8 +21,10 @@ class FindClosesTestCase(TestCase):
 
     def test_bulk(self):
         for case in self.test_cases:
-            result = find_closest(case[0], case[1])
-            self.assertEqual(result, case[2])
+            with self.subTest(target=case[1], expected=case[2]):
+                result = find_closest(case[0], case[1])
+                #logging.info("expected: {} == result: {}".format(case[2], result))
+                self.assertEqual(result, case[2])
 
     def test_big(self):
         l = []
@@ -31,8 +37,5 @@ class FindClosesTestCase(TestCase):
 
 
         result = find_closest(l, target)
-        try:
-            self.assertEqual(expected, result)
-        except AssertionError:
-            i = target in sl
-            import ipdb;ipdb.set_trace()
+        logging.info("expected: {} == result: {}".format(expected, result))
+        self.assertEqual(expected, result)
