@@ -53,8 +53,7 @@ def isMatch(text, pattern):
             if character != pattern[pattern_index]:
                 return False
             pattern_index = pattern_index - 1
-    # This ensures we made it through all of the pattern and string...
-    return pattern_index < 1 and string_index == len(text) - 1
+    return True
 
 
 def lazyIsMatch(s, p):

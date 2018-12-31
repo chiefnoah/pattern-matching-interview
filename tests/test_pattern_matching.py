@@ -11,6 +11,9 @@ class MatcherTestCase(TestCase):
         self.test_cases = [
             # string (s), pattern (p), match?
             ("abaaaaba", "abaaaaba", True),
+            ("b", "a*b", True),
+            ("aaab", "a*b", True),
+            ("ab", "a*b", True),
             ("abaaaba", "abaaabc", False),
             ("ababa", "ab?ba", True),
             ("ababa", "abc?ba", False),
