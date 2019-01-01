@@ -23,7 +23,7 @@ class FindClosesTestCase(TestCase):
         for case in self.test_cases:
             with self.subTest(target=case[1], expected=case[2]):
                 result = find_closest(case[0], case[1])
-                #logging.info("expected: {} == result: {}".format(case[2], result))
+                logging.info("expected: {} == result: {}".format(case[2], result))
                 self.assertEqual(result, case[2])
 
     def test_big(self):
