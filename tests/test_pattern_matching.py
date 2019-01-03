@@ -94,13 +94,3 @@ class MatcherTestCase(TestCase):
                 logging.info("%s match %s = %s should be %s",  
                              test_case[0], test_case[1], match, test_case[2])
                 self.assertEqual(match, test_case[2])
-
-
-
-class BrokenTestCase(TestCase):
-    def test_broken(self):
-        text = "aaabc"
-        pattern = "a*?c"
-
-        match = isMatch3(text, pattern)
-        logging.info("%s match %s = %s", text, pattern, match)
