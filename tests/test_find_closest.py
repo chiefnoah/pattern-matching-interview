@@ -7,9 +7,8 @@ logging.basicConfig(level=logging.INFO)
 
 class FindClosesTestCase(TestCase):
 
-
-    def setUp(self):
-        self.test_cases = [
+    def test_bulk(self):
+        test_cases = [
             # list, target, expected
             ([1, 2, 3, 4, 5, 6], 3, 3),
             ([1, 2, 4, 5, 6, 7], 3, 2),
@@ -21,9 +20,7 @@ class FindClosesTestCase(TestCase):
             ([1, 2, 3], 4, 3),
             ([1, 2, 3], 3, 3)
         ]
-
-    def test_bulk(self):
-        for case in self.test_cases:
+        for case in test_cases:
             with self.subTest(target=case[1], expected=case[2]):
                 result = find_closest(case[0], case[1])
                 logging.info("expected: {} == result: {}".format(case[2], result))
