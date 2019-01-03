@@ -12,10 +12,10 @@ def isMatch3(text, pattern):
             # the current character can repeat 0,n times
             if DEBUG:
                 ipdb.set_trace()
-            future_pattern_literal = _scan_pattern_for_literal(
-                pattern[patternindex+2:], character=pattern[patternindex])
-            future_text_literal = _scan_text_for_literal(
+            future_text_literal, target_char = _scan_text_for_literal(
                 text[textindex:], character=pattern[patternindex])
+            future_pattern_literal = _scan_pattern_for_literal(
+                pattern[patternindex+2:], character=pattern[patternindex], target=target_char)
             match_count = future_text_literal - future_pattern_literal
             if match_count > 0 and pattern[patternindex] != text[textindex]:
                 return False
@@ -40,12 +40,17 @@ def isMatch3(text, pattern):
     return textindex == len(text)
 
 
-def _scan_pattern_for_literal(text, character=None):
+def _scan_pattern_for_literal(text, character=None, target=None):
     """returns index of first literal found in text, or the length of text if it doesn't exist"""
     count = 0
+    qcount = 0
     for c in text:
-        if c not in ("?", "*", character):
+        if c == "?":
+            qcount = qcount + 1
+        if c == target:
             return count
+        if c not in ("?", "*", character):
+            return count - qcount
         count = count + 1
 
     return count  # this happens if we get to the end of text
@@ -56,6 +61,6 @@ def _scan_text_for_literal(text, character):
     count = 0
     for c in text:
         if c is not character:
-            return count
+            return count, c
         count = count + 1
-    return count
+    return count, None

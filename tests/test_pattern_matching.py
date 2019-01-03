@@ -48,13 +48,9 @@ class MatcherTestCase(TestCase):
             ("ab", "a*b", True),
             ("aaacde", "a*aaacde", True),
             ("aaabc", "?a*b?", True),
+            ("aaabc", "a*?c", True), # <-- This was the hardest test to get passing
         ]
-
-        self.false_negatives_v2 = [
-            ("aaabc", "a*?c", False), # this *should* match, but because the v2 version of the matcher assumes the ? should match an 'a', it fails the match
-        ]
-
-    # @skip("Tests for old implementation")
+    @skip("Tests for old implementation")
     def test_bulk(self):
         for test_case in self.test_cases:
             with self.subTest(text=test_case[0], pattern=test_case[1]):
@@ -71,6 +67,7 @@ class MatcherTestCase(TestCase):
                         test_case[0], test_case[1], match, test_case[2])
                 self.assertEqual(match, test_case[2])
 
+    @skip("Tests for old implementation")
     def test_bulk_v2(self):
         for test_case in self.test_cases:
             with self.subTest(text=test_case[0], pattern=test_case[1]):
@@ -79,6 +76,7 @@ class MatcherTestCase(TestCase):
                              test_case[0], test_case[1], match, test_case[2])
                 self.assertEqual(match, test_case[2])
 
+    @skip("Tests for old implementation")
     def test_bulk_bad_tests_v2(self):
         for test_case in self.false_negatives_v2:
             with self.subTest(text=test_case[0], pattern=test_case[1]):
@@ -86,8 +84,7 @@ class MatcherTestCase(TestCase):
                 logging.info("%s match %s = %s should be %s",  # info because by default it won't log debug or info
                              test_case[0], test_case[1], match, test_case[2])
                 self.assertEqual(match, test_case[2])
-
-    # @skip("Unused implementation")
+                
     def test_bulk_v3(self):
         for test_case in self.test_cases:
             with self.subTest(text=test_case[0], pattern=test_case[1]):
