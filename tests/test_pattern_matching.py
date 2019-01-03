@@ -72,7 +72,7 @@ class MatcherTestCase(TestCase):
         for test_case in self.test_cases:
             with self.subTest(text=test_case[0], pattern=test_case[1]):
                 match = isMatch2(test_case[0], test_case[1])
-                logging.info("%s match %s = %s should be %s",  # info because by default it won't log debug or info
+                logging.info("%s match %s = %s should be %s",
                              test_case[0], test_case[1], match, test_case[2])
                 self.assertEqual(match, test_case[2])
 
