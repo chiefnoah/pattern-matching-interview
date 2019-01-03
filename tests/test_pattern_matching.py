@@ -1,5 +1,5 @@
 from unittest import TestCase, skip
-from pattern_matching import isMatch, lazyIsMatch, isMatch2
+from pattern_matching import isMatch, lazyIsMatch, isMatch2, isMatch3
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
@@ -46,14 +46,15 @@ class MatcherTestCase(TestCase):
             ("b", "a*b", True),
             ("aaab", "a*b", True),
             ("ab", "a*b", True),
-
+            ("aaacde", "a*aaacde", True),
+            ("aaabc", "?a*b?", True),
         ]
 
         self.false_negatives_v2 = [
             ("aaabc", "a*?c", False), # this *should* match, but because the v2 version of the matcher assumes the ? should match an 'a', it fails the match
         ]
 
-    @skip("Tests for old implementation")
+    # @skip("Tests for old implementation")
     def test_bulk(self):
         for test_case in self.test_cases:
             with self.subTest(text=test_case[0], pattern=test_case[1]):
@@ -85,3 +86,22 @@ class MatcherTestCase(TestCase):
                 logging.info("%s match %s = %s should be %s",  # info because by default it won't log debug or info
                              test_case[0], test_case[1], match, test_case[2])
                 self.assertEqual(match, test_case[2])
+
+    # @skip("Unused implementation")
+    def test_bulk_v3(self):
+        for test_case in self.test_cases:
+            with self.subTest(text=test_case[0], pattern=test_case[1]):
+                match = isMatch3(test_case[0], test_case[1])
+                logging.info("%s match %s = %s should be %s",  # info because by default it won't log debug or info
+                             test_case[0], test_case[1], match, test_case[2])
+                self.assertEqual(match, test_case[2])
+
+
+
+class BrokenTestCase(TestCase):
+    def test_broken(self):
+        text = "aaabc"
+        pattern = "a*?c"
+
+        match = isMatch3(text, pattern)
+        logging.info("%s match %s = %s", text, pattern, match)

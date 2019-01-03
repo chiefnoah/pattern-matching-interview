@@ -17,13 +17,16 @@ class FindClosesTestCase(TestCase):
             ([1, 2], 2, 2),
             ([1, 2], 1, 1),
             ([1, 2, 3, 5, 6, 7], 4, 3),
+            ([1, 4, 18, 100], 50, 18),
+            ([1, 2, 3], 4, 3),
+            ([1, 2, 3], 3, 3)
         ]
 
     def test_bulk(self):
         for case in self.test_cases:
             with self.subTest(target=case[1], expected=case[2]):
                 result = find_closest(case[0], case[1])
-                #logging.info("expected: {} == result: {}".format(case[2], result))
+                logging.info("expected: {} == result: {}".format(case[2], result))
                 self.assertEqual(result, case[2])
 
     def test_big(self):

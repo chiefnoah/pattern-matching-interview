@@ -1,10 +1,15 @@
 """
 This is the latest, and most correct  version!
+
 """
 def isMatch2(s, p):
+
+    # Tokenize the pattern into groups based on match groups
+    # ex. a?b*cde will be split into a list consisting of ["a", "?", "b*", "cde"]
     groups = tokenize_pattern(p)
     index = 0
-    matched_group = []
+    matched_group = [] # The elements in this list will store the text matched by each group. When combined it should be identical to the provided string
+    # Loop through the matcher groups
     for i, g in enumerate(groups):
         if "*" in g:
             c = g[0]  # this is the character that can be matched
@@ -34,7 +39,7 @@ def _look_ahead(groups, c, text):
     count = 0
     for group in groups:
         if group == "?":
-            count = count + 1
+            count = count + 1 # There's a bug here where the lookahead assumes the ? wildcard can match c and accounts for it, causing patterns that have a ? following a x* group to fail matches
         elif group[0] == c:
             counter = 0
             while counter < len(group) and group[counter] == c:
@@ -46,6 +51,7 @@ def _look_ahead(groups, c, text):
             break
                 
     return count
+
 
 def tokenize_pattern(p):
     """
