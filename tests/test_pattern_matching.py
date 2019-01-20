@@ -50,7 +50,8 @@ class MatcherTestCase(TestCase):
             ("aaabc", "?a*b?", True),
             ("aaabc", "a*?c", True), # <-- This was the hardest test to get passing
             ("aaaaaaab", "a*aa?ab", True),
-            ("aaabc", "a*a?b?", True)
+            ("aaabc", "a*a?b?", True),
+            ("ababab", "a*aba*aba*ab", True)
         ]
     @skip("Tests for old implementation")
     def test_bulk(self):
